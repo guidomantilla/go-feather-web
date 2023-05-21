@@ -27,7 +27,7 @@ func (server *HttpServer) Run(ctx context.Context) error {
 	zap.L().Info(fmt.Sprintf("starting up - starting http server %s, v.%s", info.Name(), info.Version()))
 
 	if err := server.internal.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		zap.L().Error(fmt.Sprintf("starting up - error: %s", err.Error()))
+		zap.L().Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
 		return err
 	}
 
@@ -44,6 +44,6 @@ func (server *HttpServer) Stop(ctx context.Context) error {
 		return err
 	}
 
-	zap.L().Info("shutting down - http server stopped")
+	zap.L().Info(fmt.Sprintf("shutting down - http server stopped %s, v.%s", info.Name(), info.Version()))
 	return nil
 }
