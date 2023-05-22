@@ -23,8 +23,7 @@ func BuildHttpServer(server *http.Server) lifecycle.Server {
 
 func (server *HttpServer) Run(ctx context.Context) error {
 
-	info, _ := lifecycle.FromContext(ctx)
-	zap.L().Info(fmt.Sprintf("starting up - starting http server %s, v.%s", info.Name(), info.Version()))
+	zap.L().Info("starting up - starting http server")
 
 	if err := server.internal.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		zap.L().Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
@@ -36,14 +35,13 @@ func (server *HttpServer) Run(ctx context.Context) error {
 
 func (server *HttpServer) Stop(ctx context.Context) error {
 
-	info, _ := lifecycle.FromContext(ctx)
-	zap.L().Info(fmt.Sprintf("shutting down - stopping http server %s, v.%s", info.Name(), info.Version()))
+	zap.L().Info("shutting down - stopping http server")
 
 	if err := server.internal.Shutdown(ctx); err != nil {
 		zap.L().Error(fmt.Sprintf("shutting down - forced shutdown: %s", err.Error()))
 		return err
 	}
 
-	zap.L().Info(fmt.Sprintf("shutting down - http server stopped %s, v.%s", info.Name(), info.Version()))
+	zap.L().Info("shutting down - http server stopped")
 	return nil
 }
