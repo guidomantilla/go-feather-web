@@ -3,10 +3,10 @@ package server
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"net/http"
 
 	"github.com/qmdx00/lifecycle"
-	"go.uber.org/zap"
 )
 
 var _ lifecycle.Server = (*HttpServer)(nil)
@@ -23,10 +23,10 @@ func BuildHttpServer(server *http.Server) lifecycle.Server {
 
 func (server *HttpServer) Run(ctx context.Context) error {
 
-	zap.L().Info("starting up - starting http server")
+	slog.Info("starting up - starting http server")
 
 	if err := server.internal.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		zap.L().Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
+		slog.Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
 		return err
 	}
 
@@ -35,13 +35,13 @@ func (server *HttpServer) Run(ctx context.Context) error {
 
 func (server *HttpServer) Stop(ctx context.Context) error {
 
-	zap.L().Info("shutting down - stopping http server")
+	slog.Info("shutting down - stopping http server")
 
 	if err := server.internal.Shutdown(ctx); err != nil {
-		zap.L().Error(fmt.Sprintf("shutting down - forced shutdown: %s", err.Error()))
+		slog.Error(fmt.Sprintf("shutting down - forced shutdown: %s", err.Error()))
 		return err
 	}
 
-	zap.L().Info("shutting down - http server stopped")
+	slog.Info("shutting down - http server stopped")
 	return nil
 }
