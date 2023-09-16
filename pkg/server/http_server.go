@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -25,7 +26,7 @@ func (server *HttpServer) Run(ctx context.Context) error {
 
 	slog.Info("starting up - starting http server")
 
-	if err := server.internal.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	if err := server.internal.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		slog.Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
 		return err
 	}
