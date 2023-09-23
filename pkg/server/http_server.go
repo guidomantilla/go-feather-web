@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log/slog"
 	"net/http"
 
+	feather_commons_log "github.com/guidomantilla/go-feather-commons/pkg/log"
 	"github.com/qmdx00/lifecycle"
 )
 
@@ -24,10 +24,10 @@ func BuildHttpServer(server *http.Server) lifecycle.Server {
 
 func (server *HttpServer) Run(ctx context.Context) error {
 
-	slog.Info("starting up - starting http server")
+	feather_commons_log.Info("starting up - starting http server")
 
 	if err := server.internal.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-		slog.Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
+		feather_commons_log.Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))
 		return err
 	}
 
@@ -36,13 +36,13 @@ func (server *HttpServer) Run(ctx context.Context) error {
 
 func (server *HttpServer) Stop(ctx context.Context) error {
 
-	slog.Info("shutting down - stopping http server")
+	feather_commons_log.Info("shutting down - stopping http server")
 
 	if err := server.internal.Shutdown(ctx); err != nil {
-		slog.Error(fmt.Sprintf("shutting down - forced shutdown: %s", err.Error()))
+		feather_commons_log.Error(fmt.Sprintf("shutting down - forced shutdown: %s", err.Error()))
 		return err
 	}
 
-	slog.Info("shutting down - http server stopped")
+	feather_commons_log.Info("shutting down - http server stopped")
 	return nil
 }
