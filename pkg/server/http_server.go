@@ -24,7 +24,7 @@ func BuildHttpServer(server *http.Server) lifecycle.Server {
 
 func (server *HttpServer) Run(ctx context.Context) error {
 
-	feather_commons_log.Info("starting up - starting http server")
+	feather_commons_log.Info(fmt.Sprintf("starting up - starting http server: %s", server.internal.Addr))
 
 	if err := server.internal.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		feather_commons_log.Error(fmt.Sprintf("starting up - starting http server error: %s", err.Error()))

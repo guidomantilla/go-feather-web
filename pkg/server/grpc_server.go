@@ -28,7 +28,7 @@ func BuildGrpcServer(address string, server *grpc.Server) lifecycle.Server {
 
 func (server *GrpcServer) Run(ctx context.Context) error {
 
-	feather_commons_log.Info("starting up - starting grpc server")
+	feather_commons_log.Info(fmt.Sprintf("starting up - starting grpc server: %s", server.address))
 
 	var err error
 	var listener net.Listener
